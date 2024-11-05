@@ -25,9 +25,6 @@ class PhpParam
 	{
 		$self = new self($var->getIdentifier()->getName(), $var->getType());
 		$self->variable = $var;
-		if ($var->getInitializedValue() !== PhpVariable::NO_VALUE) {
-			$self->setValue($var->getInitializedValue());
-		}
 		return $self;
 	}
 
