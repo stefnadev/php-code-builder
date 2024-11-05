@@ -19,6 +19,7 @@ final class Type
 	private string $namespace = '';
 	/** @var Type[] */
 	private array $types = [];
+	private bool $noneValidTypeHint = false;
 
 	/**
 	 * @param list<string> $types
@@ -36,6 +37,16 @@ final class Type
 	public static function fromIdentifier(Identifier $identifier): self
 	{
 		return self::fromString($identifier->toString());
+	}
+
+	public static function enumString(string ...$values): self
+	{
+		$self = new self('');
+		$self->noneValidTypeHint = true;
+		foreach ($values as $value) {
+			$self->types[] = new self("'$value'");
+		}
+		return $self;
 	}
 
 	public static function fromString(string $type): self
@@ -158,6 +169,10 @@ final class Type
 
 	public function getTypeHint(bool $renderUnion = false): ?string
 	{
+		if ($this->noneValidTypeHint) {
+			return null;
+		}
+
 		if (count($this->types) > 1) {
 			if ($renderUnion) {
 				$typeHint = [];

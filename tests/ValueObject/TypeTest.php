@@ -326,4 +326,31 @@ class TypeTest extends TestCase
 		$this->assertSame('mixed|object', $type->getDocBlockTypeHint());
 		$this->assertSame('mixed|object', $type->getTypeHint(true));
 	}
+
+	public function testEnumStringValues(): void
+	{
+		$type = Type::enumString('value1', 'value2', 'value3');
+		$this->assertSame("'value1'|'value2'|'value3'", $type->getDocBlockTypeHint());
+		$this->assertNull($type->getTypeHint());
+		$this->assertNull($type->getTypeHint(true));
+	}
+
+	public function testEnumStringValueNullable(): void
+	{
+		$type = Type::enumString('value1', 'value2', 'value3');
+		$type->addUnion('null');
+		$this->assertSame("'value1'|'value2'|'value3'|null", $type->getDocBlockTypeHint());
+		$this->assertNull($type->getTypeHint());
+		$this->assertNull($type->getTypeHint(true));
+	}
+
+	public function testEnumStringValueNullableAndClass(): void
+	{
+		$type = Type::enumString('value1', 'value2', 'value3');
+		$type->addUnion('null');
+		$type->addUnion(\BackedEnum::class);
+		$this->assertSame("'value1'|'value2'|'value3'|BackedEnum|null", $type->getDocBlockTypeHint());
+		$this->assertNull($type->getTypeHint());
+		$this->assertNull($type->getTypeHint(true));
+	}
 }
