@@ -223,6 +223,11 @@ class Php8Renderer extends Php74Renderer
 		return $ret;
 	}
 
+	protected function renderFunctionReturnType(PhpFunction $function): string
+	{
+		return $function->getReturnType()->getTypeHint(true) ?? '';
+	}
+
 	public function renderComment(?PhpDocComment $comment): array
 	{
 		if (!$comment) {

@@ -628,12 +628,14 @@ class Php7Renderer implements FullRendererInterface
 			$ret[] = ')';
 		}
 
-		if ($function->getReturnType()->getTypeHint()) {
+		$returnTypeHint = $this->renderFunctionReturnType($function);
+
+		if ($returnTypeHint) {
 			$lastKey = (int)array_key_last($ret);
 			if (!is_string($ret[$lastKey])) {
 				throw InvalidCode::invalidType();
 			}
-			$ret[$lastKey] .= ': ' . $function->getReturnType()->getTypeHint();
+			$ret[$lastKey] .= ': ' . $returnTypeHint;
 		}
 
 		$lastKey = (int)array_key_last($ret);
@@ -788,5 +790,10 @@ class Php7Renderer implements FullRendererInterface
 	{
 		// not-supported
 		return [];
+	}
+
+	protected function renderFunctionReturnType(PhpFunction $function): string
+	{
+		return $function->getReturnType()->getTypeHint() ?? '';
 	}
 }

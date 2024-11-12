@@ -1,0 +1,6 @@
+/**
+ * @return DateTimeImmutable|PDO
+ */
+public function test(): DateTimeImmutable|PDO
+{
+}

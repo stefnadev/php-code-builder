@@ -401,4 +401,14 @@ final class PhpMethodTest extends TestCase
 		$renderer = new Php8Renderer();
 		$this->assertSourceResult($renderer->renderClass($c), 'PhpMethodTest.testVariadicParamInCtorAndPropertyPromotion');
 	}
+
+	public function testRenderUnionResponseTypeForPhp8(): void
+	{
+		$type = Type::empty();
+		$type->addUnion(\DateTimeImmutable::class);
+		$type->addUnion(\PDO::class);
+		$method = PhpMethod::public('test', [], [], $type);
+		$renderer = new Php8Renderer();
+		$this->assertSourceResult($renderer->renderMethod($method), 'PhpMethodTest.testRenderUnionResponseTypeForPhp8');
+	}
 }
