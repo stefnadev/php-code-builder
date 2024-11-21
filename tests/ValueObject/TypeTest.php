@@ -353,4 +353,12 @@ class TypeTest extends TestCase
 		$this->assertNull($type->getTypeHint());
 		$this->assertNull($type->getTypeHint(true));
 	}
+
+	public function testDontDoubleRenderUnionTypes(): void
+	{
+		$type = Type::fromString('array<int>');
+		$type->addUnion('array<string>');
+
+		$this->assertSame('array', $type->getTypeHint(true));
+	}
 }

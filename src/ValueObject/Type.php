@@ -177,7 +177,10 @@ final class Type
 			if ($renderUnion) {
 				$typeHint = [];
 				foreach ($this->getUnionTypes() as $unionType) {
-					$typeHint[] = $unionType->getTypeHint();
+					$unionTypeHint = $unionType->getTypeHint();
+					if (!in_array($unionTypeHint, $typeHint)) {
+						$typeHint[] = $unionTypeHint;
+					}
 				}
 				if ($this->isNullable() && !in_array('mixed', $typeHint)) {
 					array_unshift($typeHint, 'null');
