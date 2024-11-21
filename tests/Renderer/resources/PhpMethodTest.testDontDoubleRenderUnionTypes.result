@@ -1,0 +1,6 @@
+/**
+ * @return array<int>|array<string>
+ */
+public function test(array $test): array
+{
+}

@@ -145,7 +145,10 @@ class Php8Renderer extends Php74Renderer
 		if ($type->isUnion()) {
 			$typeHint = [];
 			foreach ($type->getUnionTypes() as $unionType) {
-				$typeHint[] = $unionType->getTypeHint();
+				$unionTypeHint = $unionType->getTypeHint();
+				if (!in_array($unionTypeHint, $typeHint)) {
+					$typeHint[] = $unionType->getTypeHint();
+				}
 			}
 			if ($type->isNullable() && !in_array('mixed', $typeHint)) {
 				array_unshift($typeHint, 'null');

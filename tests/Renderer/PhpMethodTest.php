@@ -411,4 +411,16 @@ final class PhpMethodTest extends TestCase
 		$renderer = new Php8Renderer();
 		$this->assertSourceResult($renderer->renderMethod($method), 'PhpMethodTest.testRenderUnionResponseTypeForPhp8');
 	}
+
+	public function testDontDoubleRenderUnionTypes(): void
+	{
+		$type = Type::fromString('array<int>');
+		$type->addUnion('array<string>');
+
+		$method = PhpMethod::public('test', [
+			new PhpParam('test', $type),
+		], [], $type);
+		$renderer = new Php8Renderer();
+		$this->assertSourceResult($renderer->renderMethod($method), 'PhpMethodTest.testDontDoubleRenderUnionTypes');
+	}
 }
