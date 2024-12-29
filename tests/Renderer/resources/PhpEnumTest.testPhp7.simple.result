@@ -16,7 +16,7 @@ final class Test
 		if ($self) {
 			return $self;
 		}
-		throw new ValueError('Enum not found');
+		throw new \ValueError('Enum not found: ' . $value);
 	}
 
 	public static function tryFrom(string $value): ?self

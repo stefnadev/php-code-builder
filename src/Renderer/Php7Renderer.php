@@ -144,7 +144,7 @@ class Php7Renderer implements FullRendererInterface
 			'if ($self) {',
 			['return $self;'],
 			'}',
-			'throw new ValueError(\'Enum not found\');',
+			'throw new \ValueError(\'Enum not found: \' . $value);',
 		], Type::fromString('self'));
 		$fromCtor->setStatic();
 		$enum->addMethod($fromCtor);
