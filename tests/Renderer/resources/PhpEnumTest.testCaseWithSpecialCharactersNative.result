@@ -1,0 +1,7 @@
+<?php declare(strict_types=1);
+
+enum Test: string
+{
+	case _2m = '2m';
+	case _s_2m = '>2m';
+}

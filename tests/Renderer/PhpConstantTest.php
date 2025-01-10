@@ -100,4 +100,12 @@ final class PhpConstantTest extends TestCase
 
 		$this->assertSame(['public const _3DS = \'3DS\';'], $render->renderConstant($const));
 	}
+
+	public function testSanitizeConstNameFromSpecialCharacters(): void
+	{
+		$const = PhpConstant::public(identifier: '>2m');
+		$render = new Php7Renderer();
+
+		$this->assertSame(['public const _S_2M = \'>2m\';'], $render->renderConstant($const));
+	}
 }

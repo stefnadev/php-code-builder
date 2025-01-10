@@ -1,0 +1,37 @@
+<?php declare(strict_types=1);
+
+final class Test
+{
+	public const _2m = '2m';
+	public const _s_2m = '>2m';
+
+
+	private function __construct(
+		public string $value,
+	) {}
+
+	public static function from(string $value): self
+	{
+		$self = self::tryFrom($value);
+		if ($self) {
+			return $self;
+		}
+		throw new \ValueError('Enum not found: ' . $value);
+	}
+
+	public static function tryFrom(string $value): ?self
+	{
+		if ($value === self::_2m) {
+			return new self($value);
+		}
+		if ($value === self::_s_2m) {
+			return new self($value);
+		}
+		return null;
+	}
+
+	public function __toString(): string
+	{
+		return (string)$this->value;
+	}
+}

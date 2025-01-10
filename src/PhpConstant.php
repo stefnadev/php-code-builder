@@ -41,6 +41,7 @@ class PhpConstant
 		$currentName = $this->identifier;
 		$sanitizedName = (string)preg_replace('/^(\d)/', '_$0', $currentName);
 		$sanitizedName = str_replace('-', '_', $sanitizedName);
+		$sanitizedName = (string)preg_replace('/[^A-Za-z0-9_]/', '_s_', $sanitizedName);
 
 		if ($this->case === self::CASE_NONE) {
 			return $sanitizedName;

@@ -8,6 +8,7 @@ use Stefna\PhpCodeBuilder\PhpEnum;
 use Stefna\PhpCodeBuilder\PhpFile;
 use Stefna\PhpCodeBuilder\Renderer\Php74Renderer;
 use Stefna\PhpCodeBuilder\Renderer\Php81Renderer;
+use Stefna\PhpCodeBuilder\Renderer\Php8Renderer;
 use Stefna\PhpCodeBuilder\ValueObject\EnumBackedCase;
 use Stefna\PhpCodeBuilder\ValueObject\EnumCase;
 use Stefna\PhpCodeBuilder\ValueObject\Type;
@@ -70,6 +71,38 @@ class PhpEnumTest extends TestCase
 			cases: [
 				new EnumCase('Up'),
 				new EnumCase('Down'),
+			],
+		);
+		$file = PhpFile::createFromClass($enum);
+
+		$this->assertSourceResult($renderer->render($file), 'PhpEnumTest.' . __FUNCTION__);
+	}
+
+	public function testCaseWithSpecialCharacters(): void
+	{
+		$renderer = new Php8Renderer();
+		$enum = new PhpEnum(
+			'Test',
+			Type::fromString('string'),
+			cases: [
+				new EnumBackedCase('2m', '2m'),
+				new EnumBackedCase('>2m', '>2m'),
+			],
+		);
+		$file = PhpFile::createFromClass($enum);
+
+		$this->assertSourceResult($renderer->render($file), 'PhpEnumTest.' . __FUNCTION__);
+	}
+
+	public function testCaseWithSpecialCharactersNative(): void
+	{
+		$renderer = new Php81Renderer();
+		$enum = new PhpEnum(
+			'Test',
+			Type::fromString('string'),
+			cases: [
+				new EnumBackedCase('2m', '2m'),
+				new EnumBackedCase('>2m', '>2m'),
 			],
 		);
 		$file = PhpFile::createFromClass($enum);

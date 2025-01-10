@@ -129,8 +129,9 @@ class Php7Renderer implements FullRendererInterface
 
 		foreach ($enum->getCases() as $case) {
 			$value = $case instanceof EnumBackedCase ? $case->getValue() : null;
-			$enum->addConstant(PhpConstant::public($case->getName(), $value)->setCase(PhpConstant::CASE_NONE));
-			$tryFromCtorSource[] = 'if ($value === self::' . $case->getName() . ') {';
+			$const = PhpConstant::public($case->getName(), $value)->setCase(PhpConstant::CASE_NONE);
+			$enum->addConstant($const);
+			$tryFromCtorSource[] = 'if ($value === self::' . $const->getName() . ') {';
 			$tryFromCtorSource[] = ['return new self($value);'];
 			$tryFromCtorSource[] = '}';
 		}

@@ -10,6 +10,12 @@ class EnumCase
 
 	public function getName(): string
 	{
-		return $this->name;
+		$currentName = $this->name;
+		$sanitizedName = str_replace('-', '_', $currentName);
+		$sanitizedName = str_replace(' ', '', ucwords(str_replace('_', ' ', $sanitizedName)));
+		$sanitizedName = (string)preg_replace('/[^A-Za-z0-9_]/', '_s_', $sanitizedName);
+		$sanitizedName = (string)preg_replace('/^(\d)/', '_$0', $sanitizedName);
+
+		return $sanitizedName;
 	}
 }
